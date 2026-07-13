@@ -11,10 +11,6 @@
 
 ---
 
-<img src="https://caps.torne.dev/YO-SOY-YO-DL?style=for-the-badge&logo=youtube&logoColor=white&color=FF0000" alt="GitHub Banner" />
-
----
-
 ## ⬇️ DESCARGAR AHORA ⬇️
 
 ### 👇 Click en el botón para descargar el instalador 👇
@@ -99,7 +95,5 @@ npm start
 <div align="center">
 
 ### Hecho con ❤️ por Andresv27728
-
-![Visitors](https://api.visitorbadge.io/api/visitors?path=Andresv27728%2FYO-SOY-YO-DL&countColor=%2337d67a&style=for-the-badge&label=VISITANTES)
 
 </div>
