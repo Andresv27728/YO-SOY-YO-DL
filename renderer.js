@@ -153,6 +153,7 @@ function sanitize(n){return n.replace(/[<>:"/\\|?*]/g,"_").substring(0,100);}
 
 window.api.onDownloadProgress(p=>showProg(50+p/2));
 window.api.onAppUpdated(msg=>{showStatusPanel({status:true,creator:"System",note:"App updated automatically: "+msg});});
+window.api.onApiStatus(s=>{if(s.retry)setStatus(s.msg);});
 document.onmousemove=e=>{document.querySelectorAll(".action-btn").forEach(b=>{const r=b.getBoundingClientRect();b.style.setProperty("--x",((e.clientX-r.left)/r.width*100)+"%");b.style.setProperty("--y",((e.clientY-r.top)/r.height*100)+"%");});};
 
 /* ── Setup Flow ── */
@@ -172,10 +173,10 @@ async function initApp(){
           $("appMain").style.display="flex";
           showStatusPanel(res.data);
         }else{
-          _me.textContent="Invalid API key. Check it and try again.";
+          _me.textContent=res.msg||"Invalid API key. Check it and try again.";
         }
       }catch(e){
-        _me.textContent="Connection error. Try again.";
+        _me.textContent=e.message||"Connection error. Try again.";
       }finally{
         _ms.disabled=false;_ms.textContent="ACTIVATE";_aki.disabled=false;
       }

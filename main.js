@@ -15,7 +15,34 @@ function _S(){try{fs.writeFileSync(_P,JSON.stringify({k:_K,v:_C.v,t:Date.now(),s
 function _LH(){try{_H2=fs.existsSync(_H)?JSON.parse(fs.readFileSync(_H,"utf8")):[]}catch(e){_H2=[];}}
 function _SH(){try{fs.writeFileSync(_H,JSON.stringify(_H2,null,2),"utf8");}catch(e){}}
 
-function _G(url,t=30000){return new Promise((ok,er)=>{const m=url.startsWith("https")?https:http;const r=m.get(url,{timeout:t},res=>{if(res.statusCode>=300&&res.statusCode<400&&res.headers.location){let loc=res.headers.location;if(loc.startsWith("/"))loc="https://"+_E+loc;return _G(loc,t).then(ok,er);}let d="";res.on("data",c=>d+=c);res.on("end",()=>ok({status:res.statusCode,headers:res.headers,body:d}));});r.on("error",er);r.on("timeout",()=>{r.destroy();er(new Error("Timeout"));});});}
+function _G(url,t=30000,retries=2){return new Promise((ok,er)=>{
+  const m=url.startsWith("https")?https:http;
+  const attempt=(n)=>{
+    const r=m.get(url,{timeout:t},res=>{
+      if(res.statusCode>=300&&res.statusCode<400&&res.headers.location){
+        let loc=res.headers.location;if(loc.startsWith("/"))loc="https://"+_E+loc;
+        return _G(loc,t,0).then(ok,er);
+      }
+      let d="";res.on("data",c=>d+=c);
+      res.on("end",()=>ok({status:res.statusCode,headers:res.headers,body:d}));
+    });
+    r.on("error",e=>{
+      if(n<retries){
+        const wait=(n+1)*3000;
+        if(_W&&!_W.isDestroyed())_W.webContents.send("api-status",{msg:"Server waking up, retrying in "+(wait/1000)+"s...",retry:true});
+        setTimeout(()=>attempt(n+1),wait);
+      }else er(e);
+    });
+    r.on("timeout",()=>{r.destroy();
+      if(n<retries){
+        const wait=(n+1)*3000;
+        if(_W&&!_W.isDestroyed())_W.webContents.send("api-status",{msg:"Timeout, retrying in "+(wait/1000)+"s...",retry:true});
+        setTimeout(()=>attempt(n+1),wait);
+      }else er(new Error("TIMEOUT"));
+    });
+  };
+  attempt(0);
+});}
 
 function _CW(){_W=new BW({width:960,height:750,minWidth:700,minHeight:500,backgroundColor:"#0f0f23",webPreferences:{preload:path.join(__dirname,"preload.js"),contextIsolation:true,nodeIntegration:false}});_W.loadFile("index.html");}
 
@@ -37,8 +64,12 @@ ipc.handle("setApiKey",(_e,k)=>{_K=k;_S();return true;});
 ipc.handle("validateKey",async(_e,k)=>{
   try{const r=await _G(_B+"status?apiKey="+encodeURIComponent(k),30000);let d;try{d=JSON.parse(r.body)}catch(e){d=null}
     if(d&&(d.status===true||d.status==="true"||d.api_name))return{valid:true,data:d};
-    return{valid:false};
-  }catch(e){return{valid:false};}
+    return{valid:false,msg:"Invalid API key"};
+  }catch(e){
+    if(e.message==="TIMEOUT")return{valid:false,msg:"Server is waking up (Render.com), try again in 30 seconds"};
+    if(e.code==="ENOTFOUND")return{valid:false,msg:"No internet connection or server unreachable"};
+    return{valid:false,msg:"Connection error: "+e.message};
+  }
 });
 
 ipc.handle("getStatus",async()=>{
@@ -48,7 +79,12 @@ ipc.handle("getStatus",async()=>{
 });
 
 ipc.handle("search",async(_e,q)=>{
-  const r=await _G(_B+"ytsearch?q="+encodeURIComponent(q)+"&apiKey="+_K,30000);
+  let r;try{r=await _G(_B+"ytsearch?q="+encodeURIComponent(q)+"&apiKey="+_K,30000);}
+  catch(e){
+    if(e.message==="TIMEOUT")throw new Error("Server is waking up, try again in 30 seconds");
+    if(e.code==="ENOTFOUND")throw new Error("No internet connection");
+    throw new Error("Connection error: "+e.message);
+  }
   let d;try{d=JSON.parse(r.body)}catch(e){d=[]}
   let items=Array.isArray(d)?d:d.results||d.items||[];
   if(!items.length&&typeof d==="object"){for(const v of Object.values(d)){if(Array.isArray(v)&&v.length){items=v;break;}}}
@@ -56,7 +92,12 @@ ipc.handle("search",async(_e,q)=>{
 });
 
 ipc.handle("getStreamUrl",async(_e,vu)=>{
-  const r=await _G(_B+"youtube?q="+encodeURIComponent(vu)+"&apiKey="+_K,60000);
+  let r;try{r=await _G(_B+"youtube?q="+encodeURIComponent(vu)+"&apiKey="+_K,60000);}
+  catch(e){
+    if(e.message==="TIMEOUT")throw new Error("Server is waking up, try again in 30 seconds");
+    if(e.code==="ENOTFOUND")throw new Error("No internet connection");
+    throw new Error("Connection error: "+e.message);
+  }
   let d;try{d=JSON.parse(r.body)}catch(e){d=null}
   if(!d)throw new Error("Invalid API response");
   let au=null;const res=d.result||d.results||d;const its=Array.isArray(res)?res:[res];
@@ -74,7 +115,13 @@ ipc.handle("getDownloadUrl",async(_e,vu,fmt)=>{
   try{const r=await _G(_B+"youtube/v2?url="+encodeURIComponent(vu)+"&format="+fmt+"&apiKey="+_K,15000);let d;try{d=JSON.parse(r.body)}catch(e){d=null}
     if(d){if(Array.isArray(d)){for(const x of d){if(x.url)return x.url;}}else if(d.url)return d.url;else if(d.link)return d.link;else if(d.download&&typeof d.download==="string")return d.download;}
   }catch(e){}
-  const r1=await _G(_B+"youtube?q="+encodeURIComponent(vu)+"&apiKey="+_K,60000);let d1;try{d1=JSON.parse(r1.body)}catch(e){d1=null}
+  let r1;try{r1=await _G(_B+"youtube?q="+encodeURIComponent(vu)+"&apiKey="+_K,60000);}
+  catch(e){
+    if(e.message==="TIMEOUT")throw new Error("Server is waking up, try again in 30 seconds");
+    if(e.code==="ENOTFOUND")throw new Error("No internet connection");
+    throw new Error("Connection error: "+e.message);
+  }
+  let d1;try{d1=JSON.parse(r1.body)}catch(e){d1=null}
   if(!d1)throw new Error("No download URL found");
   const res=d1.result||d1.results||d1;const its=Array.isArray(res)?res:[res];
   for(const it of its){if(!it||typeof it!=="object")continue;
