@@ -4,7 +4,7 @@
   "description": "YT Player & Downloader - Search, Play and Download YouTube videos",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "node launch.js",
     "build": "electron-builder --win"
   },
   "build": {
