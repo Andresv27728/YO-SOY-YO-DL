@@ -1,55 +1,105 @@
-# YO SOY YO DL
+<div align="center">
 
-YouTube Player & Downloader - Search, Play, and Download YouTube videos as MP3/MP4.
+# 🎵 YO SOY YO DL 🎵
 
-## Quick Install (One-Click)
+### Reproductor y Descargador de YouTube
 
-1. Download `Instalar-YO-SOY-YO-DL.bat` from this repository
-2. Double-click the `.bat` file
-3. The installer will automatically:
-   - Install Node.js (if not present)
-   - Clone this repository
-   - Install all dependencies
-   - Create a desktop shortcut
-   - Open the app
+![Version](https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge)
+![Electron](https://img.shields.io/badge/Electron-33-purple?style=for-the-badge)
+![Node](https://img.shields.io/badge/Node.js-20-green?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-red?style=for-the-badge)
 
-## Manual Install
+---
 
-### Prerequisites
+<img src="https://caps.torne.dev/YO-SOY-YO-DL?style=for-the-badge&logo=youtube&logoColor=white&color=FF0000" alt="GitHub Banner" />
 
-- [Node.js](https://nodejs.org) v18 or higher
-- Git
+---
 
-### Steps
+## ⬇️ DESCARGAR AHORA ⬇️
 
+### 👇 Click en el botón para descargar el instalador 👇
+
+<br>
+
+[![⬇️ DESCARGAR INSTALADOR ⬇️](https://img.shields.io/badge/⬇️_DESCARGAR_INSTALADOR_⬇️-green?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/Andresv27728/YO-SOY-YO-DL/raw/main/Instalar-YO-SOY-YO-DL.bat)
+
+<br>
+
+> **Un solo archivo. Un solo click. Todo se instala solo.**
+
+---
+
+</div>
+
+## 🚀 Instalación Rápida
+
+1. **Descarga** el archivo `Instalar-YO-SOY-YO-DL.bat` con el botón de arriba
+2. **Ejecútalo** con doble click
+3. **Listo** - El instalador hace todo solo:
+   - ✅ Instala Node.js (si no lo tienes)
+   - ✅ Instala Git (si no lo tienes)
+   - ✅ Clona el repositorio
+   - ✅ Instala todas las dependencias
+   - ✅ Crea un acceso directo en tu escritorio
+   - ✅ Abre la app
+
+---
+
+## 🎯 Primera vez que abres la app
+
+1. La app te pedirá una **API Key** gratis
+2. Haz click en el enlace para ir a [apiyosoyyo-ofc.onrender.com](https://apiyosoyyo-ofc.onrender.com)
+3. Obtén tu API Key gratis
+4. Pégala en la app y haz click en **ACTIVAR**
+
+---
+
+## ✨ Características
+
+| Feature | Descripción |
+|---------|-------------|
+| 🔍 **Búsqueda** | Busca cualquier video de YouTube |
+| ▶️ **Reproductor** | Escucha música online con controles completos |
+| ⬇️ **Descarga MP3** | Descarga solo el audio en alta calidad |
+| 📹 **Descarga MP4** | Descarga el video completo |
+| 📋 **Historial** | Revisa todas tus descargas anteriores |
+| 🔄 **Auto-Update** | Se actualiza solo al abrir |
+| 🎨 **RGB Snake** | Barra de progreso animada |
+| ⌨️ **Atajos** | Controles de teclado |
+
+---
+
+## 🔄 Actualizaciones Automáticas
+
+La app se actualiza **sola** cada vez que la abres. Si hay una nueva versión, la descarga automáticamente y te notifica.
+
+---
+
+## 🛠️ Instalación Manual
+
+<details>
+<summary><b>Click aquí si prefieres instalar manualmente</b></summary>
+
+### Requisitos
+- [Node.js](https://nodejs.org) v18 o superior
+- [Git](https://git-scm.com)
+
+### Pasos
 ```bash
 git clone https://github.com/Andresv27728/YO-SOY-YO-DL.git
-cd yt-player
+cd YO-SOY-YO-DL
 npm install
 npm start
 ```
 
-## First Launch
+</details>
 
-1. The app will ask for an API key
-2. Click the link to visit [apiyosoyyo-ofc.onrender.com](https://apiyosoyyo-ofc.onrender.com)
-3. Get your free API key
-4. Paste it in the app and click **ACTIVATE**
+---
 
-## Features
+<div align="center">
 
-- Search YouTube videos
-- Play videos online with full player controls
-- Download as MP3 or MP4
-- Download history with open/folder access
-- Auto-updates via git pull on startup
-- RGB snake progress bar
-- Keyboard shortcuts
+### Hecho con ❤️ por Andresv27728
 
-## Auto-Updates
+![Visitors](https://api.visitorbadge.io/api/visitors?path=Andresv27728%2FYO-SOY-YO-DL&countColor=%2337d67a&style=for-the-badge&label=VISITANTES)
 
-The app checks for updates automatically on startup. If an update is available, it pulls the latest changes and notifies you. The app will restart with the new version.
-
-## License
-
-MIT
+</div>
