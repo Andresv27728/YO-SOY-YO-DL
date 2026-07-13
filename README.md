@@ -23,7 +23,7 @@ YouTube Player & Downloader - Search, Play, and Download YouTube videos as MP3/M
 ### Steps
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/yt-player.git
+git clone https://github.com/Andresv27728/YO-SOY-YO-DL.git
 cd yt-player
 npm install
 npm start

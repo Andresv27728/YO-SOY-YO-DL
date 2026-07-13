@@ -10,7 +10,7 @@ echo   ║         Instalador Automatico v2.0              ║
 echo   ╚══════════════════════════════════════════════════╝
 echo.
 
-set "REPO_URL=https://github.com/YOUR_USERNAME/yt-player.git"
+set "REPO_URL=https://github.com/Andresv27728/YO-SOY-YO-DL.git"
 set "INSTALL_DIR=%USERPROFILE%\YO-SOY-YO-DL"
 
 echo   [1/6] Verificando Node.js...
