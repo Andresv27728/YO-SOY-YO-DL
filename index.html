@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' https: data: blob:; media-src https: blob: file:; connect-src 'self' https:;" />
+  <title>YO SOY YO DL</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="titlebar">
+    <div class="titlebar-title">YO SOY YO DL</div>
+    <div class="titlebar-buttons">
+      <button class="tb-btn" id="btn-minimize">&#x2014;</button>
+      <button class="tb-btn" id="btn-maximize">&#x25A1;</button>
+      <button class="tb-btn tb-close" id="btn-close">&#x2715;</button>
+    </div>
+  </div>
+
+  <div class="app" id="appMain" style="display:none;">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="search">SEARCH</button>
+      <button class="tab-btn" data-tab="downloads">DOWNLOADS</button>
+    </div>
+
+    <div class="tab-content active" id="tab-search">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search YouTube..." autocomplete="off" />
+        <button id="searchBtn">SEARCH</button>
+      </div>
+      <div class="progress-bar-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="results-section">
+        <table id="resultsTable">
+          <thead>
+            <tr>
+              <th class="col-num">#</th>
+              <th class="col-thumb"></th>
+              <th class="col-title">Title</th>
+              <th class="col-duration">Duration</th>
+              <th class="col-channel">Channel</th>
+              <th class="col-actions">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState">
+          <div class="empty-icon">&#9654;</div>
+          <p>Search for music or videos to get started</p>
+          <div class="suggestions">
+            <span class="suggestion-label">Suggestions:</span>
+            <button class="suggestion-chip" data-q="lofi hip hop">lofi hip hop</button>
+            <button class="suggestion-chip" data-q="reggaeton 2025">reggaeton 2025</button>
+            <button class="suggestion-chip" data-q="rock en español">rock en español</button>
+            <button class="suggestion-chip" data-q="electronic music">electronic music</button>
+            <button class="suggestion-chip" data-q="bad bunny">bad bunny</button>
+            <button class="suggestion-chip" data-q="classical music">classical music</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="tab-downloads">
+      <div class="downloads-header">
+        <h3 id="downloadsCount">0 downloads</h3>
+        <button id="clearHistoryBtn">Clear History</button>
+      </div>
+      <div class="downloads-list" id="downloadsList">
+        <div class="downloads-empty" id="downloadsEmpty">
+          <div class="empty-icon">&#8681;</div>
+          <p>No downloads yet</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="player-section" id="playerSection">
+      <div class="player-thumb" id="playerThumb">
+        <div class="player-thumb-placeholder">&#9835;</div>
+      </div>
+      <div class="player-body">
+        <div class="player-top">
+          <div class="player-track-info">
+            <div class="player-title-wrap">
+              <span class="player-title" id="playerTitle">Not playing</span>
+            </div>
+            <span class="player-channel" id="playerChannel"></span>
+          </div>
+          <div class="player-times">
+            <span id="playerCurrentTime">0:00</span>
+            <span class="player-sep">/</span>
+            <span id="playerDuration">0:00</span>
+          </div>
+        </div>
+        <div class="player-progress-wrap" id="playerProgressWrap">
+          <div class="player-progress-bg">
+            <div class="player-progress-filled" id="playerProgressFilled"></div>
+            <div class="player-progress-thumb" id="playerProgressThumb"></div>
+          </div>
+        </div>
+        <div class="player-controls">
+          <button class="pc-btn" id="btnPrev" title="Previous">&#9198;</button>
+          <button class="pc-btn pc-play" id="btnPlayPause" title="Play / Pause">&#9654;</button>
+          <button class="pc-btn" id="btnNext" title="Next">&#9197;</button>
+          <div class="player-vol-wrap">
+            <button class="pc-btn pc-vol" id="btnMute" title="Mute">&#128266;</button>
+            <input type="range" class="player-volume" id="playerVolume" min="0" max="100" value="80" />
+          </div>
+          <span class="player-status" id="downloadStatus"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <span id="statusText">Ready.</span>
+    </div>
+  </div>
+
+  <!-- Setup Modal -->
+  <div class="modal-overlay" id="setupModal">
+    <div class="modal-box">
+      <div class="modal-logo">YO SOY YO DL</div>
+      <div class="modal-subtitle">API Key Setup</div>
+      <p class="modal-text">To use this app you need a free API key.</p>
+      <div class="modal-step">
+        <span class="step-num">1</span>
+        <span>Go to <a href="#" id="modalLink" class="modal-link">apiyosoyyo-ofc.onrender.com</a></span>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">2</span>
+        <span>Get your free API key</span>
+      </div>
+      <div class="modal-step">
+        <span class="step-num">3</span>
+        <span>Paste it below</span>
+      </div>
+      <input type="text" id="apiKeyInput" class="modal-input" placeholder="Paste your API key here..." autocomplete="off" />
+      <div class="modal-error" id="modalError"></div>
+      <button class="modal-btn" id="modalSubmit">ACTIVATE</button>
+    </div>
+  </div>
+
+  <!-- Status Panel -->
+  <div class="status-panel" id="statusPanel">
+    <div class="sp-header">YO SOY YO DL</div>
+    <div class="sp-body" id="statusPanelBody"></div>
+    <div class="sp-bar"><div class="sp-bar-fill" id="statusBarFill"></div></div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
