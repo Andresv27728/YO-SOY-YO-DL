@@ -7,6 +7,8 @@ echo.
 echo   ╔══════════════════════════════════════════════════╗
 echo   ║         YO SOY YO DL - YT Player               ║
 echo   ║         Instalador Automatico v2.0              ║
+echo   ║         Creado por: YO SOY YO                  ║
+echo   ║         WhatsApp: +57 313 337 4132              ║
 echo   ╚══════════════════════════════════════════════════╝
 echo.
 
@@ -207,3 +209,9 @@ echo.
 
 cd /d "%INSTALL_DIR%"
 call npm start
+
+echo.
+echo   ══════════════════════════════════════════
+echo   Creado por YO SOY YO | WhatsApp: +57 313 337 4132
+echo   ══════════════════════════════════════════
+echo.

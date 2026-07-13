@@ -11,6 +11,13 @@
 
 ---
 
+### Creado por **YO SOY YO**
+
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-+57_313_337_4132-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/573133374132)
+[![GitHub](https://img.shields.io/badge/GitHub-Andresv27728-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Andresv27728)
+
+---
+
 ## ⬇️ DESCARGAR AHORA ⬇️
 
 ### 👇 Click en el botón para descargar el instalador 👇
@@ -94,6 +101,8 @@ npm start
 
 <div align="center">
 
-### Hecho con ❤️ por Andresv27728
+### Hecho con ❤️ por **YO SOY YO** (Andresv27728)
+
+[![WhatsApp](https://img.shields.io/badge/WhatsApp_Me-+57_313_337_4132-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/573133374132)
 
 </div>

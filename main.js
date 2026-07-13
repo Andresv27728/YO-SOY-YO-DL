@@ -44,7 +44,7 @@ function _G(url,t=30000,retries=2){return new Promise((ok,er)=>{
   attempt(0);
 });}
 
-function _CW(){_W=new BW({width:960,height:750,minWidth:700,minHeight:500,backgroundColor:"#0f0f23",webPreferences:{preload:path.join(__dirname,"preload.js"),contextIsolation:true,nodeIntegration:false}});_W.loadFile("index.html");}
+function _CW(){_W=new BW({width:960,height:750,minWidth:700,minHeight:500,backgroundColor:"#0f0f23",title:"YO SOY YO DL - by YO SOY YO",webPreferences:{preload:path.join(__dirname,"preload.js"),contextIsolation:true,nodeIntegration:false}});_W.loadFile("index.html");}
 
 function _UPD(){
   exec("git pull",{timeout:30000},(err,stdout)=>{

@@ -33,6 +33,14 @@ body {
   letter-spacing: 0.5px;
 }
 
+.titlebar-credit {
+  font-size: 10px;
+  font-weight: 400;
+  opacity: 0.5;
+  margin-left: 8px;
+  -webkit-text-fill-color: #666;
+}
+
 .titlebar-buttons {
   display: flex;
   gap: 2px;
@@ -1152,6 +1160,9 @@ td.col-channel {
   border: 1px solid #1a1a2e;
   position: relative;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .status-bar::before {
@@ -1168,6 +1179,12 @@ td.col-channel {
   font-family: "Consolas", "Courier New", monospace;
   font-size: 11px;
   color: #00e676;
+}
+
+.status-bar-credit {
+  font-size: 9px;
+  color: #444;
+  letter-spacing: 0.5px;
 }
 
 /* ── Thumbnail column ── */
@@ -1455,6 +1472,16 @@ tr:hover .thumb-img {
   transform: none;
 }
 
+.modal-credit {
+  text-align: center;
+  font-size: 10px;
+  color: #555;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  letter-spacing: 0.3px;
+}
+
 /* ══════════════════════════════════════════ */
 /* ── STATUS PANEL ── */
 /* ══════════════════════════════════════════ */
@@ -1550,4 +1577,14 @@ tr:hover .thumb-img {
 @keyframes barCountdown {
   0% { transform: scaleX(1); }
   100% { transform: scaleX(0); }
+}
+
+.sp-credit {
+  text-align: center;
+  font-size: 9px;
+  color: #444;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  letter-spacing: 0.3px;
 }
