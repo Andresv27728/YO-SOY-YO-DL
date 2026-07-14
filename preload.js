@@ -24,4 +24,5 @@ onApiStatus:(cb)=>ip.on("api-status",(_e,s)=>cb(s)),
 minimize:()=>ip.send("window-minimize"),
 maximize:()=>ip.send("window-maximize"),
 close:()=>ip.send("window-close"),
+quit:()=>ip.invoke("quitApp"),
 });

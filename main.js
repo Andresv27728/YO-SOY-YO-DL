@@ -1,4 +1,4 @@
-const{app:app, BrowserWindow:BW, ipcMain:ipc, shell:shell, Notification:Notif}=require("electron");
+const{app:app, BrowserWindow:BW, ipcMain:ipc, shell:shell, Notification:Notif, Tray:Tray, Menu:Menu}=require("electron");
 const path=require("path"), https=require("https"), http=require("http"), fs=require("fs"),{exec}=require("child_process");
 
 const _C={k:"apiKey",v:"1.0.0"};
@@ -6,7 +6,7 @@ const _P=path.join(app.getPath("userData"),"ytconf.dat");
 const _H=path.join(app.getPath("userData"),"dlhist.dat");
 const _D=path.join(app.getPath("desktop"),"Descargas");
 
-let _K="",_H2=[],_W=null;
+let _K="",_H2=[],_W=null,_T=null;
 const _E="\x61\x70\x69\x79\x6f\x73\x6f\x79\x79\x6f\x2d\x6f\x66\x63\x2e\x6f\x6e\x72\x65\x6e\x64\x65\x72\x2e\x63\x6f\x6d";
 const _B="\x68\x74\x74\x70\x73\x3a\x2f\x2f"+_E+"\x2f\x61\x70\x69\x2f";
 
@@ -44,7 +44,24 @@ function _G(url,t=30000,retries=2){return new Promise((ok,er)=>{
   attempt(0);
 });}
 
-function _CW(){_W=new BW({width:960,height:750,minWidth:700,minHeight:500,backgroundColor:"#0f0f23",title:"YO SOY YO DL - by YO SOY YO",webPreferences:{preload:path.join(__dirname,"preload.js"),contextIsolation:true,nodeIntegration:false}});_W.loadFile("index.html");}
+function _CW(){_W=new BW({width:960,height:750,minWidth:700,minHeight:500,backgroundColor:"#0f0f23",title:"YO SOY YO DL - by YO SOY YO",webPreferences:{preload:path.join(__dirname,"preload.js"),contextIsolation:true,nodeIntegration:false}});_W.loadFile("index.html");
+  _W.on("close",e=>{if(!_Q){e.preventDefault();_W.hide();}});
+}
+
+let _Q=false;
+function _TRAY(){
+  const ip=path.join(__dirname,"icon.png");
+  const icon=fs.existsSync(ip)?ip:undefined;
+  _T=new Tray(icon||"");
+  _T.setToolTip("YO SOY YO DL - by YO SOY YO");
+  _T.setContextMenu(Menu.buildFromTemplate([
+    {label:"YO SOY YO DL",enabled:false},
+    {type:"separator"},
+    {label:"Abrir",click:()=>{if(_W){_W.show();_W.focus();}}},
+    {label:"Salir",click:()=>{_Q=true;if(_T)_T.destroy();app.quit();}}
+  ]));
+  _T.on("double-click",()=>{if(_W){_W.show();_W.focus();}});
+}
 
 function _UPD(){
   exec("git pull",{timeout:30000},(err,stdout)=>{
@@ -55,8 +72,11 @@ function _UPD(){
   });
 }
 
-app.whenReady().then(()=>{_L();_LH();if(!fs.existsSync(_D))fs.mkdirSync(_D,{recursive:true});_CW();setTimeout(_UPD,5000);});
-app.on("window-all-closed",()=>app.quit());
+app.whenReady().then(()=>{_L();_LH();if(!fs.existsSync(_D))fs.mkdirSync(_D,{recursive:true});_CW();_TRAY();setTimeout(_UPD,5000);
+  if(Notif.isSupported()){const n=new Notif({title:"YO SOY YO DL",subtitle:"App iniciada",body:"YO SOY YO DL esta activa y lista para usar.",silent:false});n.show();}
+});
+app.on("window-all-closed",()=>{});
+app.on("before-quit",()=>{_Q=true;});
 
 ipc.handle("hasApiKey",()=>!!_K);
 ipc.handle("setApiKey",(_e,k)=>{_K=k;_S();return true;});
@@ -162,4 +182,5 @@ ipc.handle("notify",(_e,t,b)=>{if(Notif.isSupported()){const n=new Notif({title:
 
 ipc.on("window-minimize",()=>{if(_W)_W.minimize();});
 ipc.on("window-maximize",()=>{if(_W)_W.isMaximized()?_W.unmaximize():_W.maximize();});
-ipc.on("window-close",()=>{if(_W)_W.close();});
+ipc.on("window-close",()=>{if(_W)_W.hide();});
+ipc.handle("quitApp",()=>{_Q=true;if(_T)_T.destroy();app.quit();});
